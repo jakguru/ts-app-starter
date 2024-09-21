@@ -7,7 +7,9 @@ A starter template which can be used as a quick and easy starter for getting a p
 From your command line, run:
 
 ```bash
-curl -sL https://raw.githubusercontent.com/jakguru/ts-app-starter/refs/heads/main/bin/init.sh | /bin/sh
+curl -sL https://raw.githubusercontent.com/jakguru/ts-app-starter/refs/heads/main/bin/init.cjs -o /tmp/ts-app-starter-initializer.cjs && \
+node /tmp/ts-app-starter-initializer.cjs && \
+rm /tmp/ts-app-starter-initializer.cjs
 ```
 
 Provide the script with the answers and let it create the folder and initialise the dependancies for you
