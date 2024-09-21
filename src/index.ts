@@ -4,6 +4,7 @@ import { prettyPrintError, inspect } from "./providers/logger";
 import { cleanup, run, scriptAbortController } from "./services/cli";
 import { dirname, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
+import { existsSync } from "node:fs";
 import { Config } from "@nestmtx/config";
 
 sourceMapSupport.install({
@@ -14,6 +15,7 @@ sourceMapSupport.install({
 
 const CURRENT_FILENAME = fileURLToPath(import.meta.url);
 const BASEDIR = dirname(CURRENT_FILENAME);
+const CONFIG_DIR = resolve(BASEDIR, "config");
 
 process
   .on("unhandledRejection", (reason, p) => {
@@ -37,7 +39,10 @@ run()
     if (!opts) {
       return;
     }
-    const config = await Config.initialize(resolve(BASEDIR, "config"));
+    let config: Config | undefined;
+    if (existsSync(CONFIG_DIR)) {
+      config = await Config.initialize(CONFIG_DIR);
+    }
     /**
      * This is the main entry point of the script
      */

@@ -10,7 +10,6 @@ const externals = new Set<string>([
   "node:util",
   "node:path",
   "node:url",
-  "node:dgram",
   "node:fs",
   "node:fs/promises",
 ]);
@@ -51,7 +50,7 @@ export default defineConfig(async () => {
           ...configEntries,
         },
         name: "@example/script",
-        formats: ["es"],
+        formats: ["es", "cjs"],
         fileName: (format: string, entry: string) => {
           switch (format) {
             case "es":
