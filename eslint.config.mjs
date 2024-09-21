@@ -168,7 +168,7 @@ export default [
         },
     },
     {
-        files: ["**/*.js", "**/*.jsx", "**/*.ts", "**/*.tsx", "**/*.vue", "**/*.mts"],
+        files: ["**/*.js", "**/*.jsx", "**/*.ts", "**/*.tsx", "**/*.vue", "**/*.mts", "**/*.mjs"],
         plugins: {
             prettier: eslintPluginPrettier,
             "no-window-negation": noWindowNegation.plugin,

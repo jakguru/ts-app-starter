@@ -1,7 +1,7 @@
 {
-  "name": "@nestmtx/stable-streamer",
-  "version": "1.0.0",
-  "description": "A typescript application and library for ensuring mtx stream stability with unstable sources",
+  "name": "@example/script",
+  "version": "0.0.1",
+  "description": "An example script",
   "scripts": {
     "dev": "npx jiti bin/dev.ts",
     "package": "npx jiti bin/package.ts",
@@ -11,7 +11,7 @@
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
-  "author": "Jak Guru <jak@nestmtx.com>",
+  "author": "Jak Guru <jak@jak.guru>",
   "license": "MIT",
   "devDependencies": {
     "@types/cli-color": "^2.0.6",
@@ -38,7 +38,6 @@
     "command-line-usage": "^7.0.3",
     "execa": "^9.3.1",
     "joi": "^17.13.3",
-    "mediasoup": "3",
     "reflect-metadata": "^0.2.2",
     "source-map-support": "^0.5.21",
     "werift": "^0.19.8",
@@ -51,12 +50,9 @@
     "dist"
   ],
   "module": "./dist/index.mjs",
-  "main": "./dist/index.cjs",
   "exports": {
     ".": {
-      "import": "./dist/index.mjs",
-      "require": "./dist/index.cjs",
-      "types": "./dist/index.d.ts"
+      "import": "./dist/index.mjs"
     }
   }
 }

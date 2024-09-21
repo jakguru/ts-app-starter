@@ -50,7 +50,7 @@ export default defineConfig(async () => {
           env: resolve(SRC_DIR, "env.ts"),
           ...configEntries,
         },
-        name: "example/script",
+        name: "@example/script",
         formats: ["es"],
         fileName: (format: string, entry: string) => {
           switch (format) {
