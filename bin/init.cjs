@@ -1,22 +1,22 @@
 #!/usr/bin/env node
+'use strict';
 
-import { execSync } from "child_process";
-import { createWriteStream } from "fs";
-import { mkdirSync, rmSync, existsSync } from "fs";
-import { createInterface } from "readline";
-import { get } from "https";
-import { pipeline } from "stream";
-import { promisify } from "util";
-import { tmpdir } from "os";
-import { join, resolve } from "path";
-import { URL } from "url";
+var child_process = require('child_process');
+var fs = require('fs');
+var readline = require('readline');
+var https = require('https');
+var stream = require('stream');
+var util = require('util');
+var os = require('os');
+var path = require('path');
+var url = require('url');
 
 // Promisify pipeline for modern usage
-const streamPipeline = promisify(pipeline);
+const streamPipeline = util.promisify(stream.pipeline);
 
 // Helper to ask user input
 const askQuestion = (query) => {
-  const rl = createInterface({
+  const rl = readline.createInterface({
     input: process.stdin,
     output: process.stdout,
   });
@@ -29,13 +29,13 @@ const askQuestion = (query) => {
 };
 
 // Function to download a file and follow redirects
-const downloadFile = async (url, destination) => {
-  const file = createWriteStream(destination);
+const downloadFile = async (url$1, destination) => {
+  const file = fs.createWriteStream(destination);
 
-  const download = (url, resolve, reject) => {
-    const options = new URL(url);
+  const download = (url$1, resolve, reject) => {
+    const options = new url.URL(url$1);
 
-    get(options, (response) => {
+    https.get(options, (response) => {
       if (response.statusCode === 302 || response.statusCode === 301) {
         // Follow redirect
         download(response.headers.location, resolve, reject);
@@ -47,7 +47,7 @@ const downloadFile = async (url, destination) => {
     }).on("error", reject);
   };
 
-  return new Promise((resolve, reject) => download(url, resolve, reject));
+  return new Promise((resolve, reject) => download(url$1, resolve, reject));
 };
 
 // Function to check if Node.js version is at least 22
@@ -68,10 +68,10 @@ const checkNodeVersion = () => {
 
   const ZIP_URL =
     "https://github.com/jakguru/ts-app-starter/archive/refs/heads/main.zip";
-  const TMP_DIR = tmpdir();
-  const ZIP_FILE = join(TMP_DIR, "ts-app-starter.zip");
-  const EXTRACT_DIR = join(TMP_DIR, "ts-app-starter-main");
-  rmSync(EXTRACT_DIR, { recursive: true, force: true });
+  const TMP_DIR = os.tmpdir();
+  const ZIP_FILE = path.join(TMP_DIR, "ts-app-starter.zip");
+  const EXTRACT_DIR = path.join(TMP_DIR, "ts-app-starter-main");
+  fs.rmSync(EXTRACT_DIR, { recursive: true, force: true });
 
   try {
     // Ask for the destination directory
@@ -80,15 +80,15 @@ const checkNodeVersion = () => {
     );
 
     // Resolve the destination directory to an absolute path
-    destinationDir = resolve(destinationDir);
+    destinationDir = path.resolve(destinationDir);
 
     // Check if the destination directory exists
-    if (existsSync(destinationDir)) {
+    if (fs.existsSync(destinationDir)) {
       const overwrite = await askQuestion(
         "Directory already exists. Overwrite? (y/n): ",
       );
       if (overwrite.toLowerCase() === "y") {
-        rmSync(destinationDir, { recursive: true, force: true });
+        fs.rmSync(destinationDir, { recursive: true, force: true });
         console.log("Removed existing directory.");
       } else {
         console.log("Exiting.");
@@ -96,7 +96,7 @@ const checkNodeVersion = () => {
       }
     }
 
-    mkdirSync(destinationDir, { recursive: true });
+    fs.mkdirSync(destinationDir, { recursive: true });
 
     // Download the zip file
     console.log(`Downloading zip file from ${ZIP_URL}...`);
@@ -105,11 +105,11 @@ const checkNodeVersion = () => {
 
     // Extract the ZIP file using the native 'unzip' command
     console.log(`Extracting ${ZIP_FILE} to ${EXTRACT_DIR}...`);
-    execSync(`unzip -q ${ZIP_FILE} -d ${TMP_DIR}`);
+    child_process.execSync(`unzip -q ${ZIP_FILE} -d ${TMP_DIR}`);
     console.log("Extraction complete.");
 
     // Move the extracted directory to the destination
-    execSync(`mv ${EXTRACT_DIR}/* ${destinationDir}`);
+    child_process.execSync(`mv ${EXTRACT_DIR}/* ${destinationDir}`);
     console.log(`Moved extracted files to ${destinationDir}.`);
 
     // Ask for the preferred package manager
@@ -138,15 +138,15 @@ const checkNodeVersion = () => {
 
     // Install dependencies using the selected package manager
     console.log(`Installing dependencies using ${pm}...`);
-    execSync(`${pm} install`, { stdio: "inherit", cwd: destinationDir });
+    child_process.execSync(`${pm} install`, { stdio: "inherit", cwd: destinationDir });
     console.log("Dependencies installed successfully.");
 
     // Clean up the zip file
-    rmSync(ZIP_FILE);
-    rmSync(EXTRACT_DIR, { recursive: true, force: true });
-    rmSync(join(destinationDir, "bin", "init.mjs"));
-    rmSync(join(destinationDir, "README.md"));
-    rmSync(join(destinationDir, "LICENSE.md"));
+    fs.rmSync(ZIP_FILE);
+    fs.rmSync(EXTRACT_DIR, { recursive: true, force: true });
+    fs.rmSync(path.join(destinationDir, "bin", "init.cjs"));
+    fs.rmSync(path.join(destinationDir, "README.md"));
+    fs.rmSync(path.join(destinationDir, "LICENSE.md"));
     console.log("Project setup complete. Cleaned up the zip file.");
   } catch (err) {
     console.error(`Error: ${err.message}`);
