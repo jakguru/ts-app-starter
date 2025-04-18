@@ -68,6 +68,11 @@ export default defineConfig(async () => {
       },
       emptyOutDir: false,
     },
+    resolve: {
+      alias: {
+        '@': resolve(BASE_DIR, 'src'),
+      },
+    },
     define: {},
   } as UserConfig
 })
