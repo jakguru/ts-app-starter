@@ -3,6 +3,7 @@
   "version": "0.0.1",
   "description": "An example script",
   "scripts": {
+    "customize": "npx jiti bin/customize.ts",
     "dev": "npx jiti bin/dev.ts",
     "package": "npx jiti bin/package.ts",
     "build": "npx rimraf dist && vite build",
@@ -12,8 +13,11 @@
   },
   "keywords": [],
   "author": "Jak Guru <jak@jak.guru>",
+  "copyright": "© 2025-present Jak Guru LLC",
   "license": "MIT",
   "devDependencies": {
+    "@inquirer/prompts": "^7.4.1",
+    "@nhtio/eslint-config": "^1.20250414.1",
     "@types/cli-color": "^2.0.6",
     "@types/command-line-args": "^5.2.3",
     "@types/command-line-usage": "^5.0.4",
