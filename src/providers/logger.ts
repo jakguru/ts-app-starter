@@ -1,53 +1,13 @@
-import winston from 'winston'
 import { env } from '../env'
-import { inspect as nodeInspect } from 'node:util'
-export const logger = winston.createLogger({
-  levels: winston.config.syslog.levels,
-  level: env.get('LOG_LEVEL'),
-  format: winston.format.json(),
-  transports: [
-    new winston.transports.Console({
-      format: winston.format.combine(winston.format.colorize(), winston.format.simple()),
-    }),
-  ],
-  exitOnError: false,
-  handleExceptions: true,
-  handleRejections: true,
-})
+import { Logger, PinoCompatibleLogger } from '@nhtio/logger'
+import type { LoggerLevel } from '@nhtio/logger'
+
+export const logger = new Logger(env.get('LOG_LEVEL'))
+export const pino = new PinoCompatibleLogger(env.get('LOG_LEVEL'))
 
 export const logCompletePromise = new Promise<void>((resolve) => {
-  logger.on('finish', resolve)
+  logger.complete.then(() => resolve(void 0))
 })
-
-export const pino = {
-  trace(what: any, ...args: any[]) {
-    const toOutput = [what, ...args].map((a) => nodeInspect(a, { depth: 5 })).join(' ')
-    logger.debug(toOutput)
-  },
-  debug(what: any, ...args: any[]) {
-    const toOutput = [what, ...args].map((a) => nodeInspect(a, { depth: 5 })).join(' ')
-    logger.debug(toOutput)
-  },
-  info(what: any, ...args: any[]) {
-    const toOutput = [what, ...args].map((a) => nodeInspect(a, { depth: 5 })).join(' ')
-    logger.info(toOutput)
-  },
-  warn(what: any, ...args: any[]) {
-    const toOutput = [what, ...args].map((a) => nodeInspect(a, { depth: 5 })).join(' ')
-    logger.warning(toOutput)
-  },
-  error(what: any, ...args: any[]) {
-    const toOutput = [what, ...args].map((a) => nodeInspect(a, { depth: 5 })).join(' ')
-    logger.error(toOutput)
-  },
-  fatal(what: any, ...args: any[]) {
-    const toOutput = [what, ...args].map((a) => nodeInspect(a, { depth: 5 })).join(' ')
-    logger.crit(toOutput)
-  },
-  child() {
-    return pino
-  },
-}
 
 /**
  * Pretty prints an error with colorful output using
@@ -61,4 +21,5 @@ export async function prettyPrintError(error: any) {
   logger.error(youchTerminal(await youch.toJSON(), { displayShortPath: true }))
 }
 
-export const inspect = (i: unknown) => logger.info(nodeInspect(i, { depth: 20, colors: true }))
+export const inspect = (i: unknown, l?: LoggerLevel | Uppercase<LoggerLevel>) =>
+  logger.inspect(i, l)

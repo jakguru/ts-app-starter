@@ -18,7 +18,7 @@
   "license": "MIT",
   "devDependencies": {
     "@inquirer/prompts": "^7.4.1",
-    "@nhtio/eslint-config": "^1.20250414.1",
+    "@nhtio/eslint-config": "^1.20250514.0",
     "@types/cli-color": "^2.0.6",
     "@types/command-line-args": "^5.2.3",
     "@types/command-line-usage": "^5.0.4",
@@ -39,6 +39,7 @@
   },
   "dependencies": {
     "@nestmtx/config": "^1.0.8",
+    "@nhtio/logger": "^1.20250428.0",
     "command-line-args": "^6.0.0",
     "command-line-usage": "^7.0.3",
     "execa": "^9.3.1",

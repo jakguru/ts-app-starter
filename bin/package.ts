@@ -1,6 +1,6 @@
 /* eslint-disable @unicorn/prefer-module */
-import { readFile, writeFile } from 'node:fs/promises'
 import { resolve } from 'node:path'
+import { readFile, writeFile } from 'node:fs/promises'
 
 const BASE_DIR = resolve(__dirname, '..')
 const packageJsonPath = resolve(BASE_DIR, 'package.json')

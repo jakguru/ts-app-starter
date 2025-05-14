@@ -1,7 +1,6 @@
-import cla from 'command-line-args'
-import clu from 'command-line-usage'
-import joi from 'joi'
-
+import { default as joi } from 'joi'
+import { default as cla } from 'command-line-args'
+import { default as clu } from 'command-line-usage'
 import { logger, logCompletePromise } from '../providers/logger'
 
 const options = [

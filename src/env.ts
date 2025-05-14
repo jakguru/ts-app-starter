@@ -1,6 +1,5 @@
+import { default as Joi } from 'joi'
 import { Env } from '@nestmtx/config'
-import Joi from 'joi'
-
 import type { EnvSchema } from '@nestmtx/config'
 
 const envSchema: EnvSchema = {

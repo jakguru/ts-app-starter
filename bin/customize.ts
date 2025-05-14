@@ -1,9 +1,9 @@
 /* eslint-disable @unicorn/prefer-module */
 
+import { randomUUID } from 'node:crypto'
 import { resolve, join } from 'node:path'
 import { input, confirm } from '@inquirer/prompts'
 import { readFile, writeFile, readdir } from 'node:fs/promises'
-import { randomUUID } from 'node:crypto'
 
 const cwd = resolve(__dirname, '..')
 const color = require('cli-color')

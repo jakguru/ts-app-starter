@@ -1,11 +1,11 @@
 import 'reflect-metadata'
+import { existsSync } from 'node:fs'
+import { fileURLToPath } from 'node:url'
+import { Config } from '@nestmtx/config'
+import { dirname, resolve } from 'node:path'
 import * as sourceMapSupport from 'source-map-support'
 import { prettyPrintError, inspect } from './providers/logger'
 import { cleanup, run, scriptAbortController } from './services/cli'
-import { dirname, resolve } from 'node:path'
-import { fileURLToPath } from 'node:url'
-import { existsSync } from 'node:fs'
-import { Config } from '@nestmtx/config'
 
 sourceMapSupport.install({
   handleUncaughtExceptions: false,
