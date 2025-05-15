@@ -9,5 +9,8 @@
     "overrideConfigFile": "./eslint.config.mjs"
   },
   "eslint.useFlatConfig": true,
-  "eslint.debug": true
+  "eslint.debug": true,
+  "[markdown]": {
+    "editor.formatOnSave": true,
+  }
 }
